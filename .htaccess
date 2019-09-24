@@ -1,0 +1,17 @@
+Options +FollowSymlinks
+RewriteEngine On
+# The following rule tells Apache that if the requested filename
+# exists, simply serve it.
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+# The following rewrites all other queries to index.php
+RewriteRule ^(.*)$ index.php/$1 [NC,L]
+
+# another way of doing this
+# In the below example, any HTTP request other than those for existing directories and existing files is treated as a request for your index.php file.
+# RewriteEngine On
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php/$1 [L]

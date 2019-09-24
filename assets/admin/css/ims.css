@@ -1,0 +1,140 @@
+.ajax_progress_bar {
+    background-color: rgb(180, 245, 180);
+    border-radius: 3px;
+    height: 20px;
+    width: 0;
+}
+
+input.error {    
+	border-color: #3C3C3C;
+    color: #DC6767;
+}
+textarea.error {    
+	border-color: #3C3C3C;
+    color: #DC6767;
+}
+select.error {    
+	border-color: #3C3C3C;
+    color: #DC6767;
+}
+
+label.error {
+	color: #DC6767;
+	display:block;
+}
+
+span.error {
+    color: #DC6767;
+}
+
+
+
+.demo-tbl {
+    background: #fff;
+    width: 100%;
+    float: left;
+    border-collapse: collapse;
+    border-right: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+    margin: 10px 0
+}
+
+.demo-tbl td, .demo-tbl th {
+    border-left: 1px solid #dbdbdb;
+    border-top: 1px solid #dbdbdb;
+    vertical-align: top;
+    padding: 15px
+}
+
+.demo-tbl p {
+    margin: 0;
+    padding: 0 15px 5px 0
+}
+
+.demo-tbl p.desc{
+    margin-top: 5px;
+}
+
+
+.demo-tbl p.desc a{
+    color:#000;
+	text-decoration:none;
+}
+
+.demo-tbl .odd {
+    background: transparent;
+}
+
+.demo-tbl .even {
+    background: #f9f9f9;
+}
+
+.demo-tbl .title {
+    font-size: 110%;
+    /*color: #f03800;*/
+	color: #3C3C3C;
+}
+
+.demo-tbl .address {
+    float: right;
+    color: #440e00;
+}
+
+.demo-tbl .addinfo {
+    color: #999999;
+	 margin-top: 15px;
+}
+
+.demo-tbl p.addinfo a{
+    color: #f03800;
+	text-decoration:none;
+}
+
+.panel-body h4{
+	color:#BF3B3B;
+	
+}
+
+
+.panel-body a{
+	color:#BF3B3B;
+	
+}
+
+#captcha_image_cont{
+
+	width:14px;
+	height:40px;
+	
+}
+
+.adv_search_form {
+  background: #E5E5E5;
+  border-radius: 3px;
+  padding: 20px;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.adv_search_form label{
+	color:#212529;
+}
+
+.mb15{
+	margin-bottom:15px;
+}
+
+.card_number{
+	color:#03F;
+	font-weight:800;
+}
+
+
+.cat_name{
+	color:#03F;
+	font-weight:800;
+}

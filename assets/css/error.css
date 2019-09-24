@@ -1,0 +1,25 @@
+
+input.error {    
+	border-color: #DC6767 !important;
+    color: #DC6767 !important;
+}
+textarea.error {    
+	border-color: #DC6767 !important;
+    color: #DC6767 !important;
+}
+select.error {    
+	border-color: #DC6767 !important;
+    color: #DC6767 !important; 
+}
+
+label.error {
+	color: #DC6767 !important;
+	display:block;
+}
+
+span.error {
+    color: #DC6767 !important;
+	display:block;
+	
+}
+

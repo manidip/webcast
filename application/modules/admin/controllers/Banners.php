@@ -8,10 +8,15 @@ class Banners extends MX_Controller {
         parent::__construct();
 
         $this->load->model('admin_user_model');
+
         $this->load->model('banner_model');
+
         $this->load->model('log_model');
+
         $this->load->library('my_form_validation');
+
         $this->load->library('pagination');
+
         $this->load->library('admin');
 
         $this->admin->check_sess_timeout();

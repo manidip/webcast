@@ -83,7 +83,7 @@ $(document).ready(function(){
       <div class="login-box">
        
         
-        <?php echo form_open(base_url()."admin/", array('name' => 'login-form', 'id' => 'login-form', 'autocomplete'=>'off', 'class'=>'login-form')); ?>
+        <?php echo form_open(base_url()."admin/home/index", array('name' => 'login-form', 'id' => 'login-form', 'autocomplete'=>'off', 'class'=>'login-form')); ?>
         
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i><?php echo $this->validation->xssSafe($title); ?></h3>
           

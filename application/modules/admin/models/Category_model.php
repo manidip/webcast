@@ -39,18 +39,9 @@ class Category_model extends CI_Model {
 				 ->from('category');
 				 
 		$this->db->where('category.id', $id);
-			
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select();
-		/////////////////////////
 
 		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
-		
+
 		if($query->num_rows()>0)
 		{
 			$row = $query->row();
@@ -62,9 +53,7 @@ class Category_model extends CI_Model {
 			return array();
 		}
 	}
-	
-	
-	
+
 		
 	public function get_categories($start=0, $limit=0, $sort_field='created_at', $sort_order='desc', $optArr=array())
 	{

@@ -7,15 +7,13 @@ class Coordinator_model extends CI_Model {
 	{
 		parent::__construct();
 	}
-	
- 
+
 	public function add_coordinator($dataArr)
 	{		
 		$this->db->insert('coordinator',$dataArr);
 		return  $this->db->insert_id();
 	}
-	
-	
+
 	public function edit_coordinator($dataArr, $id)
 	{		
 		if(!empty($id))
@@ -26,17 +24,13 @@ class Coordinator_model extends CI_Model {
 		$this->db->update('coordinator', $dataArr);
 	
 	}
-	
-	
+
 	public function delete_coordinator($id=0)
 	{	
 		
 		$this->db->delete('coordinator', array('id' => $id)); 
 	}
-	
-	
 
-	
 	public function get_coordinator($id)
 	{
 		
@@ -72,17 +66,11 @@ class Coordinator_model extends CI_Model {
 			return array();
 		}
 	}
-	
-	
 
-	
-		
 	public function get_coordinators($start=0, $limit=0, $sort_field='created_at', $sort_order='desc', $optArr=array())
 	{
 
-		
-		
-		
+
 		$this->db->select('coordinator.*, 
 						  state.state_name as address_state,
 						  admin_user.fname as author_fname,
@@ -105,50 +93,32 @@ class Coordinator_model extends CI_Model {
 					 ->or_like('coordinator.mobile', $optArr['search_kw'], 'both') // before, after, both (default)
 			         ->group_end();	
 		}
-		
-		
+
+        if(!empty($optArr['status']))
+        {
+            $status = ($optArr['status'] == 1) ? 1 : 0;
+            $this->db->where('coordinator.active', $status);
+        }
 		
 		
 		if(!empty($optArr['author']))
 		{
 			$this->db->where('coordinator.author', $optArr['author']); 
 		}
-		
-		
 
-		
-		//$this->db->where('coordinator.active', 1);
-		
-		
-		//$this->db->where('coordinator.card_category_id', 3);
-		//$this->db->where('coordinator.award_category', 0);
-		
 	
 		$this->db->order_by($sort_field, $sort_order);
 		
 		
 		if(!empty($limit))
 			$this->db->limit($limit, $start);
-		
 
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select(); die;
-		/////////////////////////
+		$query=$this->db->get();
 
-		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
-		
+		//echo $this->db->last_query();
 		if($query->num_rows()>0)
 		{
 			$rows = $query->result();
-			
-			//print_r($rows);
-			//die;
-			
 			return $rows;
 		}
 		else
@@ -156,57 +126,28 @@ class Coordinator_model extends CI_Model {
 			return array();
 		}
 	}
-	
-	
-	
+
 	public function get_coordinator_count($opt=array(), $id=0)
 	{	
 	
 	
-		$this->db->select('coordinator.id')
-				 ->from('coordinator');
-				 
+		$this->db->select('coordinator.id') ->from('coordinator');
 				 
 
-
-	
 		if(!empty($opt['email']))
 		{
 			$this->db->where("coordinator.email",$opt['email']);
 		}
 		
-		
-		
-		
-		
-		
+
 		if(!empty($id))
 		{
 			$this->db->where("coordinator.id !=",$id);
 		}
-		
-		
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select(); die;
-		/////////////////////////
+
 
 		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
-		
-		
-		//echo $this->db->last_query(); die;
-		
-		//echo "<br/>";
-		
-		//echo $query->num_rows(); die;
-		
-		return $query->num_rows();
+        return $query->num_rows();
 	}
 	
 	

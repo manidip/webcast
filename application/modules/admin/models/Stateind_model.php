@@ -17,7 +17,7 @@ class Stateind_model extends CI_Model {
 	
 	public function edit_state($dataArr, $state_id)
 	{		
-		$this->db->where('state_id', $id);
+		$this->db->where('state_id', $state_id);
 		$this->db->update('state', $dataArr);
 	
 	}
@@ -41,7 +41,6 @@ class Stateind_model extends CI_Model {
 		}
 	}
 
-	
 	public function get_state_by_code($state_code)
 	{	
 		
@@ -59,23 +58,28 @@ class Stateind_model extends CI_Model {
 			return array();
 		}
 	}
-	
+
+    public function alias_exists($alias,$state_id)
+    {
+
+        $this->db->select('count(*) as count')->from('state');
+
+        $this->db->where('state.alias', $alias);
+
+        $this->db->where('state.state_id !=', $state_id);
+
+        $query = $this->db->get();
+
+        $result = array_shift($query->result_array());
+
+        return ($result['count'] > 0) ? true : false;
+    }
 	
 	public function get_states()
 	{		
-		
-		$query=$this->db->get("state");
 
-		if($query->num_rows()>0)
-		{
-			$rows = $query->result();
-			
-			return $rows;
-		}
-		else
-		{
-			return array();
-		}
+		$query = $this->db->get("state");
+		return ($query->num_rows() > 0) ? $query->result(): array();
 	}
 	
 	

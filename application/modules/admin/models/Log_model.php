@@ -7,13 +7,11 @@ class Log_model extends CI_Model {
 	{
 		parent::__construct();
 	}
- 
 	public function add_log($dataArr)
 	{		
 		$this->db->insert('admin_log',$dataArr);
 		return  $this->db->insert_id();
 	}
-	
 	
 	public function edit_log($dataArr, $log_id)
 	{		
@@ -21,8 +19,7 @@ class Log_model extends CI_Model {
 		$this->db->update('admin_log', $dataArr);
 	
 	}
-	
-	
+
 	public function get_log($log_id)
 	{	
 	
@@ -34,18 +31,8 @@ class Log_model extends CI_Model {
 		
 		if(!empty($log_id))
 			$this->db->where('admin_log.log_id', $log_id);
-		
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select(); die;
-		/////////////////////////
 
 		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
-		
 
 		if($query->num_rows()>0)
 		{
@@ -59,8 +46,6 @@ class Log_model extends CI_Model {
 		}
 	}
 	
-	
-	
 	public function get_log_count($user_id='')
 	{
 
@@ -72,22 +57,14 @@ class Log_model extends CI_Model {
 		
 		if(!empty($user_id))
 			$this->db->where('admin_log.user_id', $user_id);
-		
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select(); die;
-		/////////////////////////
+
 
 		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
+
 		
 		return $query->num_rows();
 	}
-	
-		
+
 	public function get_logs($start=0, $limit=0, $sort_field='admin_log.activity_time', $sort_order='desc', $optArr=array())
 	{
 		

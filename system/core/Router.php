@@ -154,17 +154,17 @@ class CI_Router {
 	 */
 	protected function _set_routing()
 	{
-		// Load the routes.php file. It would be great if we could
+		// Load the department.routes.php file. It would be great if we could
 		// skip this for enable_query_strings = TRUE, but then
 		// default_controller would be empty ...
-		if (file_exists(APPPATH.'config/routes.php'))
+		if (file_exists(APPPATH.'config/department.routes.php'))
 		{
-			include(APPPATH.'config/routes.php');
+			include(APPPATH.'config/department.routes.php');
 		}
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/department.routes.php'))
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/department.routes.php');
 		}
 
 		// Validate & get reserved routes
@@ -362,7 +362,7 @@ class CI_Router {
 	/**
 	 * Parse Routes
 	 *
-	 * Matches any routes that may exist in the config/routes.php file
+	 * Matches any routes that may exist in the config/department.routes.php file
 	 * against the URI to determine if the class/method need to be remapped.
 	 *
 	 * @return	void

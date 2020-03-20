@@ -1,0 +1,34 @@
+cOORDINATORS
+
+Designation -> Optional
+
+Validate Phone or Mobile
+
+
+Events
+
+URL Alias -> Tag with ministry /department
+Confirm Audience
+Title / Desc -> Make Optional Field
+Add Regional Title Field
+Session Status -> Default Show/ Closed Remove / VOD Archive
+
+
+ministry / department / org => Manage
+
+Coordinators
+
+ministry / department / org -> Dropdown
+
+
+Event Sessions 
+
+Show Event from now onwards
+
+
+Annon Slider
+
+Banner -> Footer Ban
+
+
+Creator / Publisher -> Validation

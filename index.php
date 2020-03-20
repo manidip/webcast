@@ -162,7 +162,7 @@ switch (ENVIRONMENT)
  * DEFAULT CONTROLLER
  * --------------------------------------------------------------------
  *
- * Normally you will set your default controller in the routes.php file.
+ * Normally you will set your default controller in the department.routes.php file.
  * You can, however, force a custom routing by hard-coding a
  * specific controller class/function here. For most applications, you
  * WILL NOT set your routing here, but it's an option for those

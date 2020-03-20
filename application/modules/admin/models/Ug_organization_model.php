@@ -63,6 +63,21 @@ class Ug_organization_model extends CI_Model {
 		}
 	}
 	
+	public function alias_exists($orgn_alias,$orgn_id)
+	{
+		
+		$this->db->select('count(*) as count')->from('ug_organization');
+				 
+		$this->db->where('ug_organization.alias', $orgn_alias);
+
+		$this->db->where('ug_organization.orgn_id !=', $orgn_id);
+	
+		$query = $this->db->get();
+
+		$result = array_shift($query->result_array());
+		
+		return ($result['count'] > 0) ? true : false;
+	}
 	
 		
 	public function get_organizations($start=0, $limit=0, $sort_field='orgn_name', $sort_order='asc', $optArr=array())
@@ -77,33 +92,25 @@ class Ug_organization_model extends CI_Model {
 					 ->like('ug_organization.orgn_name', $optArr['search_kw'], 'both') // before, after, both (default)
 			         ->group_end();	
 		}
-		
-	
+		if(!empty($optArr['only_url_alias'])){
+
+			$this->db->where('alias is not null and alias <>', '' );
+		}
+        if(!empty($optArr['group_by'])){
+			$this->db->group_by($optArr['group_by']);
+		}
+
 		$this->db->order_by($sort_field, $sort_order);
-		
-		
+	
 		if(!empty($limit))
 			$this->db->limit($limit, $start);
 		
-
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select();
-		/////////////////////////
-
 		$query=$this->db->get(); // runs query()
 		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
 		
 		if($query->num_rows()>0)
 		{
 			$rows = $query->result();
-			
-			//print_r($rows);
-			//die;
-			
 			return $rows;
 		}
 		else
@@ -111,7 +118,6 @@ class Ug_organization_model extends CI_Model {
 			return array();
 		}
 	}
-	
 	
 	public function get_organization_list($limit=0, $sort_field='orgn_name', $sort_order='asc', $optArr=array())
 	{
@@ -163,61 +169,92 @@ class Ug_organization_model extends CI_Model {
 	
 	
 	public function get_ministries($start=0, $limit=0, $sort_field='orgn_name', $sort_order='asc', $optArr=array())
-	{
-		
-		$this->db->select('ug_organization.*')
-				 ->from('ug_organization');
-				 
-		$this->db->where('ug_organization.hide', 0);
-				 
-		$this->db->group_start()
-				 ->where('ug_organization.ministry_id', 0) // apex bodies
-				 ->or_where('ug_organization.ministry_id > ', 0)  // ministries
-				 ->group_end();	
-				 
-		$this->db->where('ug_organization.dept_id', 0);
-		$this->db->where('ug_organization.organ_id', 0);
-				 
-		if(!empty($optArr['search_kw']))
-		{
-			$this->db->group_start()
-					 ->like('ug_organization.orgn_name', $optArr['search_kw'], 'both') // before, after, both (default)
-			         ->group_end();	
-		}
-		
-	
-		$this->db->order_by($sort_field, $sort_order);
-		
-		
-		if(!empty($limit))
-			$this->db->limit($limit, $start);
-		
+{
 
-		//////print sql query before execution//////////
-		//echo $this->db->get_compiled_select();
-		/////////////////////////
+    $this->db->select('ug_organization.*')
+        ->from('ug_organization');
 
-		$query=$this->db->get(); // runs query()
-		
-		
-		//////print sql query before execution//////////
-		//echo $this->db->last_query(); 
-		//////////////////////////////
-		
-		if($query->num_rows()>0)
-		{
-			$rows = $query->result();
-			
-			//print_r($rows);
-			//die;
-			
-			return $rows;
-		}
-		else
-		{
-			return array();
-		}
-	}
+    $this->db->where('ug_organization.hide', 0);
+
+    $this->db->group_start()
+        ->where('ug_organization.ministry_id', 0) // apex bodies
+        ->or_where('ug_organization.ministry_id > ', 0)  // ministries
+        ->group_end();
+
+    $this->db->where('ug_organization.dept_id', 0);
+    $this->db->where('ug_organization.organ_id', 0);
+
+    if(!empty($optArr['search_kw']))
+    {
+        $this->db->group_start()
+            ->like('ug_organization.orgn_name', $optArr['search_kw'], 'both') // before, after, both (default)
+            ->group_end();
+    }
+
+
+    $this->db->order_by($sort_field, $sort_order);
+
+
+    if(!empty($limit))
+        $this->db->limit($limit, $start);
+
+
+    //////print sql query before execution//////////
+    //echo $this->db->get_compiled_select();
+    /////////////////////////
+
+    $query=$this->db->get(); // runs query()
+
+
+    //////print sql query before execution//////////
+    //echo $this->db->last_query();
+    //////////////////////////////
+
+    if($query->num_rows()>0)
+    {
+        $rows = $query->result();
+
+        //print_r($rows);
+        //die;
+
+        return $rows;
+    }
+    else
+    {
+        return array();
+    }
+}
+
+    public function get_departments($start=0, $limit=0, $sort_field='orgn_name', $sort_order='asc', $optArr=array())
+    {
+
+        $this->db->select('ug_organization.*')
+            ->from('ug_organization');
+
+        $this->db->where('ug_organization.hide', 0)
+                ->where('ug_organization.ministry_id > ', 0)
+                ->where('ug_organization.dept_id > ', 0)
+                ->where('ug_organization.organ_id', 0);
+
+        if(!empty($optArr['search_kw']))
+        {
+            $this->db->group_start()
+                ->like('ug_organization.orgn_name', $optArr['search_kw'], 'both') // before, after, both (default)
+                ->group_end();
+        }
+
+        $this->db->order_by($sort_field, $sort_order);
+
+        if(!empty($limit))
+            $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+
+        if($query->num_rows()>0)
+            return $query->result();
+
+            return array();
+    }
 	
 	
 	public function get_ug_data($type='', $start=0, $limit=0, $sort_field='orgn_name', $sort_order='asc', $optArr=array())

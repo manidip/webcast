@@ -1,47 +1,28 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// https://ellislab.com/codeigniter/user-guide/general/creating_libraries.html
-// to call default library function array_map(array($this->CI->security, 'xss_clean'), $shipping_info);
+class MY_Form_validation extends CI_Form_validation{
 
+    public function __construct(){
 
-class MY_Form_validation extends CI_Form_validation
-{
-		
-	 // http://tutsnare.com/custom-form-validation-in-codeigniter/
-	 
-	 
-	public function __construct()
-	{
 		parent::__construct();
-		
+
 		$this->CI->load->library('validation');
-		
+        $this->CI->load->library('input');
 	}
-	
-	
+
 	public function is_valid_captcha($str){
 		
-		$word = $this->CI->session->captchaWord;
-		
-		//echo $str.'---'.$word;
-		//die;
-	
-		//if(strcmp(strtoupper($str),strtoupper($word)) == 0){// case insensitive
-			
-		
-		
-		if(strcmp($str,$word) == 0){ // case sensitive
-		  return true;
-		}
-		else{
-		  $this->CI->form_validation->set_message('is_valid_captcha', 'Please enter correct verification code (case sensitive).');
-		  return false;
-		}
+        $word = $this->CI->session->captchaWord;
+
+        if(strcmp($str,$word) == 0)  return true;
+
+        $this->CI->form_validation->set_message('is_valid_captcha', 'Please enter correct verification code (case sensitive).');
+        return false;
+
 	 }
   
-  
-	
+
 	 /**
      * MY_Form_validation::alpha_extra().
      * Alpha-numeric with periods, underscores, spaces and dashes.
@@ -51,173 +32,107 @@ class MY_Form_validation extends CI_Form_validation
 	   $this->CI->form_validation->set_message('is_alpha_extra', 'The %s may only contain alpha-numeric characters, spaces, periods, underscores & dashes.');
 	   
 	   if($this->CI->validation->isAlphaExtra($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
-     
+	       return true;
+
+	   return false;
     }
-	
+
 	public function is_alpha_numeric($str) {
 		
 	   $this->CI->form_validation->set_message('is_alpha_numeric', 'The %s may only contain alpha-numeric characters.');
-	   
-	   if($this->CI->validation->isAlphaNumeric($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
+
+        if($this->CI->validation->isAlphaNumeric($str))
+            return true;
+
+        return false;
      
     }
-	
-	
+
 	public function is_valid_salutation($str) {
 		
         $this->CI->form_validation->set_message('is_valid_salutation', 'Please enter a valid %s.');
-		
-		
-	 
-	   if($this->CI->validation->is_listed_value($str, array('Mr','Ms','Dr','Prof','Shri','Smt')))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }   
-	  
+
+        if($this->CI->validation->is_listed_value($str, array('Mr','Ms','Dr','Prof','Shri','Smt')))
+            return true;
+
+        return false;
+
     }
-	
-	
+
 	public function is_valid_award_rank($str) {
 		
         $this->CI->form_validation->set_message('is_valid_award_rank', 'Please enter a valid %s.');
-		
-		
-	 
-	   if($this->CI->validation->is_listed_value($str, array('Platinum','Gold','Silver')))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }   
-	  
+
+        if($this->CI->validation->is_listed_value($str, array('Platinum','Gold','Silver')))
+            return true;
+
+        return false;
     }
-	
-	
+
 	public function is_valid_winner_role($str) {
 		
         $this->CI->form_validation->set_message('is_valid_winner_role', 'Please enter a valid %s.');
-		
-		
-	 
-	   if($this->CI->validation->is_listed_value($str, array('Team Leader','Team Member')))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }   
-	  
+
+        if($this->CI->validation->is_listed_value($str, array('Team Leader','Team Member')))
+            return true;
+
+        return false;
     }
-	
-	
+
 	public function is_valid_government($str) {
 		
         $this->CI->form_validation->set_message('is_valid_government', 'Please enter a valid %s.');
-		
-		
-	 
-	   if($this->CI->validation->is_listed_value($str, array('Union','State','None')))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }   
-	  
+
+        if($this->CI->validation->is_listed_value($str, array('Union','State','None')))
+            return true;
+
+        return false;
+
     }
 	
 	
 	public function is_valid_state_code($str) {
 		
 	   $this->CI->form_validation->set_message('is_valid_state_code', 'Please enter a valid %s.');
-	   
-	   if($this->CI->validation->isValidStateCode($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
-     
+
+        if($this->CI->validation->isValidStateCode($str))
+            return true;
+
+        return false;
     }
-	
-	
-	
-	
+
 	public function is_valid_name($str) {
 		
         $this->CI->form_validation->set_message('is_valid_name', 'The %s may only contain alphabetic, spaces & periods.');
-		
-		
-	   if($this->CI->validation->isValidName($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
-	  
+
+        if($this->CI->validation->isValidName($str))
+            return true;
+
+        return false;
     }
 	
 	
 	public function is_valid_email($str) {
 		
-		$str=$this->CI->validation->decodeEmail($str); // [at] => @, [dot] => .
+		$str = $this->CI->validation->decodeEmail($str); // [at] => @, [dot] => .
 		
         $this->CI->form_validation->set_message('is_valid_email', 'Please enter a valid %s.');
-		
-		
-	   if($this->CI->validation->isEmail($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
-	  
+
+        if($this->CI->validation->isEmail($str))
+            return true;
+
+        return false;
     }
 	
 	public function have_valid_email_chars($str) {
-		
-		
-		
+
         $this->CI->form_validation->set_message('have_valid_email_chars', 'Invalid charcters found in %s.');
-		
-		
-	   if($this->CI->validation->haveValidEmailChars($str))
-	   {
-		   return TRUE;
-	   }
-	   else
-	   {
-		   return FALSE;
-	   }  
-	  
+
+        if($this->CI->validation->haveValidEmailChars($str))
+            return true;
+
+        return false;
+
     }
 	
 	public function is_valid_mobile($str) {
@@ -538,15 +453,86 @@ class MY_Form_validation extends CI_Form_validation
 	   }   
 	  
     }
+
+    public function valid_date($date)
+    {
+        $this->CI->form_validation->set_message('valid_date', 'The %s field is not a valid date.');
+        $d = DateTime::createFromFormat('d-m-Y', $date);
+        return $d && $d->format('d-m-Y') === $date;
+    }
+
+    public function is_valid_status($str) {
+
+        $this->CI->form_validation->set_message('is_valid_status', 'Please enter a valid %s.');
+
+        if($this->CI->validation->is_listed_value($str, array('draft','published')))
+          return true;
+
+        return false;
+    }
+
+    public function is_valid_source($str) {
+
+        $this->CI->form_validation->set_message('is_valid_status', 'Please enter a valid %s.');
+
+        if($this->CI->validation->is_listed_value($str, array('dd','vc','agency')))
+            return true;
+
+        return false;
+    }
+
+    public function is_valid_audience($str) {
+
+
+        $this->CI->form_validation->set_message('is_valid_audience', 'Please enter a valid %s.');
+
+        if($this->CI->validation->is_listed_value($str, array('nic','public')))
+            return true;
+
+        return false;
+    }
+
+    function is_valid_web_image($files){
+
+
+        $this->CI->form_validation->set_message('is_valid_web_image', 'Please enter a valid %s.');
+
+        $file = (isset($files['tmp_name'])) ? $files['tmp_name'] : '';
+        $allowed_types = array('image/png','image/jpeg','image/jpg','image/x-png');
+
+        if(empty($file)) return false;
+
+        if (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimetype = finfo_file($finfo, $file);
+            finfo_close($finfo);
+        }
+        else {
+            $mimetype = mime_content_type($file);
+        }
+
+
+
+        if(in_array($mimetype,$allowed_types))
+            return true;
+
+        return false;
+
+    }
+
+    function valid_url($url)
+    {
+        $pattern = "|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i";
+
+        if (preg_match($pattern, $url)){
+            return true;
+        }
+        return false;
+    }
+
+    function is_phone_required($contact) {
+        return false;
+    }
 	
-	
-	
-	
-	
-	
-	/*
-	Note :- function body must have a message $this->form_validation->set_message(‘rule’, ‘Error Message’); and return a Boolean value TRUE/FALSE.
-	*/
-    // add more function to apply custom rules.
-	
+
 }

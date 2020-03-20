@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Category extends MX_Controller { //class Home extends CI_Controller  class Home extends MY_Controller 
+class Category extends MX_Controller { //class Home extends CI_Controller  class Home extends MY_Controller
 
 	public function __construct()
 	{
@@ -135,7 +135,7 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 				
 			if($cat_count>0)
 			{
-				$errArr[]='This Catgeory with same Title (hi) already exists.';
+				$errArr[]='This Category with same Title (hi) already exists.';
 			}
 				
 				
@@ -155,7 +155,7 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 					
 			if(!empty($ferror) && $ferror!=4) // 4 means no file uploaded
 			{
-				$errArr[]="An upload error has occured. Please check the Thumb Image file type/size you are uploading.";
+				$errArr[]="An upload error has occurred. Please check the Thumb Image file type/size you are uploading.";
 			}
 			
 			
@@ -657,7 +657,24 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 		{
 			$error_message="Action could not be completed.";
 			$data['error_message']=$error_message;
-		}
+		}else if($msg=='event_exists')
+		{
+			$error_message="Event(s) exist under this Category so it can't be deleted.";
+			$data['error_message']=$error_message;
+		}else if($msg == 'security_mismatch'){
+
+            $error_message = "Security tokens do not match.";
+            $data['error_message']= $error_message;
+
+        }else if($msg=='invalid_cat'){
+
+            $error_message = "Invalid Category.";
+            $data['error_message'] = $error_message;
+        }else if($msg=='cat_not_exists'){
+
+            $error_message = "Category does not exists.";
+            $data['error_message'] = $error_message;
+        }
 		
 		
 		$search_kw=$this->input->get('search_kw');
@@ -801,15 +818,8 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 		
 
 		$categories = $this->category_model->get_categories($start, $limit, $sort_field, $sort_order, $optArr);
-		
-		
-			
-		
-		
+
 		$data['categories'] = $categories;
-			
-			
-		
 		$data["paging_links"] = $this->pagination->create_links();
 
 		$data["page"] =$page;
@@ -893,21 +903,23 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 		 
 		if($csrf_wc_token!=$hash)
 		{
-			$errArr[]="Security tokens do not match.";
+            redirect('/admin/category/index?msg=security_mismatch');
+            exit;
 		}
 		else
 		{
-			
-			
-		
 			$id=$this->input->get('id');
-			
-			
 			if(!$this->validation->isInteger($id))
 			{
-				$errArr[]="Invalid Category ID.";
+                redirect('/admin/category/index?msg=invalid_cat');
+                exit;
 			}
-			
+
+            $category_exists = $this->category_model->get_category($id);
+            if(empty($category_exists)){
+                redirect('/admin/category/index?msg=cat_not_exists');
+                exit;
+            }
 			
 			if(empty($errArr))
 			{
@@ -922,12 +934,10 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 				
 				$event_count=count($eventArr);
 				
-				if($event_count>0)
+				if($event_count > 0)
 				{
-					$errArr[]="Event(s) exist under this Category so it can't be deleted.";
-					$errStr=implode(' ',$errArr);
-					echo $errStr; 
-					exit;
+                    redirect('/admin/category/index?msg=event_exists');
+                    exit;
 				}
 				else
 				{
@@ -979,8 +989,8 @@ class Category extends MX_Controller { //class Home extends CI_Controller  class
 		
 		
 		$errStr=implode(' ',$errArr);
-		echo $errStr; 
-		exit;
+        redirect('/admin/category/index?msg=deleted');
+        exit;
 	}
 	
 	

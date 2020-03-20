@@ -23,65 +23,78 @@ $method=$this->router->fetch_method();
     <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/error.css">
     
     <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/prettyPhoto.css">
- 
-    
    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    
-    
-        <!-- Essential javascripts for application to work-->
-    <script src="<?php echo base_url(); ?>assets/admin/js/jquery-3.2.1.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/popper.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/bootstrap.min.js"></script>
-     <script src="<?php echo base_url(); ?>assets/admin/js/bootstrap3-typeahead.js"></script>
-    
-    
-    
-   
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="<?php echo base_url(); ?>assets/admin/js/plugins/pace.min.js"></script>
-    
-    <script src="<?php echo base_url(); ?>assets/admin/js/jquery.validate.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/additional-methods.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/jquery.form.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/sha256.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/common.js"></script>
-    
-    
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/admin/js/jquery.prettyPhoto.js" charset="utf-8"></script>
-    
-    
-    <script type="text/javascript">
-	
-	$(document).ready(function () {
-		$("a[rel^='galleryPhoto']").prettyPhoto({ social_tools:'', deeplinking: false, theme: 'pp_default', /* light_rounded / dark_rounded / light_square / dark_square / facebook */ });
-	});
-	
-	
-	/*** for screenshots ***/
-	$(document).ready(function(){
-		$("a[rel^='prettyPhoto']").prettyPhoto({social_tools: false});
-	});
-	
-	
-	
-	function burstCache() {
-			
-			if (!navigator.onLine) {
-				document.body.innerHTML = 'Not Available';
-			}
-		}
-		
-		
-	$(document).ready(function(){
-							     
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/admin/css/jquery.datetimepicker.min.css">
+      <link href="<?php echo base_url(); ?>assets/admin/css/select2.min.css" rel="stylesheet" />
+      <style>
+          .select2-container--default .select2-selection--multiple .select2-selection__choice{
+              background-color: #009688;
+              border: 1px solid #009688;
+          }
+          .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+              color: #fff;
+          }
+          .select2-container--default .select2-results__option--highlighted[aria-selected]{
+              background-color: #009688;
+          }
+          .select2-container .select2-selection--single{
+              height:auto;
+          }
+          .select2-container--default .select2-selection--single .select2-selection__rendered,.select2-container--default .select2-selection--multiple{
+              padding: 0.375rem 0.75rem;
+          }
+          .select2-container--default .select2-selection--single .select2-selection__arrow {
+              top: 8px;
+              right: 6px;
+          }
+          .select2-container--default .select2-selection--single .select2-selection__clear{
+              right: 15px;
+          }
+      </style>
+      <!-- Essential javascripts for application to work-->
+      <script src="<?php echo base_url(); ?>assets/admin/js/jquery-3.2.1.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/popper.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/bootstrap.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/bootstrap3-typeahead.js"></script>
 
-		
-	
-	});
-	
-	</script>
-    
+      <!-- The javascript plugin to display page loading on top-->
+      <script src="<?php echo base_url(); ?>assets/admin/js/plugins/pace.min.js"></script>
+
+      <script src="<?php echo base_url(); ?>assets/admin/js/select2.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/jquery.validate.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/additional-methods.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/jquery.form.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/sha256.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/common.js"></script>
+      <script src="<?php echo base_url(); ?>assets/admin/js/jquery.datetimepicker.full.min.js"></script>
+
+
+      <script type="text/javascript" src="<?php echo base_url(); ?>assets/admin/js/jquery.prettyPhoto.js" charset="utf-8"></script>
+
+
+      <script type="text/javascript">
+          $(document).ready(function() {
+              $("a[rel^='galleryPhoto']").prettyPhoto({
+                  social_tools: '',
+                  deeplinking: false,
+                  theme: 'pp_default',
+                  /* light_rounded / dark_rounded / light_square / dark_square / facebook */
+              });
+          });
+          /*** for screenshots ***/
+          $(document).ready(function() {
+              $("a[rel^='prettyPhoto']").prettyPhoto({
+                  social_tools: false
+              });
+          });
+
+          function burstCache() {
+
+              if (!navigator.onLine) {
+                  document.body.innerHTML = 'Not Available';
+              }
+          }
+      </script>
   </head>
   <body onLoad="burstCache();" class="app sidebar-mini rtl">
     <!-- Navbar-->
@@ -143,95 +156,51 @@ $method=$this->router->fetch_method();
       </div>
       <ul class="app-menu">
         <li><a class="app-menu__item active" href="<?php echo base_url().'admin/dashboard/index'; ?>"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        
-        
-        <?php
-        if($usrRec->role=='admin')
-        {
-		?>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Categories</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/category/index'; ?>"><i class="icon fa fa-circle-o"></i>List</a></li>
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/category/add'; ?>"><i class="icon fa fa-circle-o"></i>Add</a></li>
-          </ul>
-        </li>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-calendar"></i><span class="app-menu__label">Events </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/events/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/events/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+              </ul>
+          </li>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-clock-o"></i><span class="app-menu__label">Event Sessions </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/event_sessions/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/event_sessions/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+              </ul>
+          </li>
 
-        
-        
-        
-        
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Coordinators</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/coordinator/index'; ?>"><i class="icon fa fa-circle-o"></i>List</a></li>
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/coordinator/add'; ?>"><i class="icon fa fa-circle-o"></i>Add</a></li>
-          </ul>
-        </li>
-        
-        
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">CMS Users</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/admin_user/index'; ?>"><i class="icon fa fa-circle-o"></i>List</a></li>
-            <li><a class="treeview-item" href="<?php echo base_url().'admin/admin_user/add'; ?>"><i class="icon fa fa-circle-o"></i>Add</a></li>
-          </ul>
-        </li>
-        
-        <?php
-		}
-		?>
-<!--        
-        
-        
-        
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">API Users</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?php // echo base_url().'admin/api_user/index'; ?>"><i class="icon fa fa-circle-o"></i>List</a></li>
-          
-          </ul>
-        </li> -->
-        
-        
-        
-        
-        <!--
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">UI Elements</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="bootstrap-components.html"><i class="icon fa fa-circle-o"></i> Bootstrap Elements</a></li>
-            <li><a class="treeview-item" href="https://fontawesome.com/v4.7.0/icons/" target="_blank" rel="noopener"><i class="icon fa fa-circle-o"></i> Font Icons</a></li>
-            <li><a class="treeview-item" href="ui-cards.html"><i class="icon fa fa-circle-o"></i> Cards</a></li>
-            <li><a class="treeview-item" href="widgets.html"><i class="icon fa fa-circle-o"></i> Widgets</a></li>
-          </ul>
-        </li>
-        <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">Charts</span></a></li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Forms</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="form-components.html"><i class="icon fa fa-circle-o"></i> Form Components</a></li>
-            <li><a class="treeview-item" href="form-custom.html"><i class="icon fa fa-circle-o"></i> Custom Components</a></li>
-            <li><a class="treeview-item" href="form-samples.html"><i class="icon fa fa-circle-o"></i> Form Samples</a></li>
-            <li><a class="treeview-item" href="form-notifications.html"><i class="icon fa fa-circle-o"></i> Form Notifications</a></li>
-          </ul>
-        </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Tables</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="table-basic.html"><i class="icon fa fa-circle-o"></i> Basic Tables</a></li>
-            <li><a class="treeview-item" href="table-data-table.html"><i class="icon fa fa-circle-o"></i> Data Tables</a></li>
-          </ul>
-        </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="blank-page.html"><i class="icon fa fa-circle-o"></i> Blank Page</a></li>
-            <li><a class="treeview-item" href="page-login.html"><i class="icon fa fa-circle-o"></i> Login Page</a></li>
-            <li><a class="treeview-item" href="page-lockscreen.html"><i class="icon fa fa-circle-o"></i> Lockscreen Page</a></li>
-            <li><a class="treeview-item" href="page-user.html"><i class="icon fa fa-circle-o"></i> User Page</a></li>
-            <li><a class="treeview-item" href="page-invoice.html"><i class="icon fa fa-circle-o"></i> Invoice Page</a></li>
-            <li><a class="treeview-item" href="page-calendar.html"><i class="icon fa fa-circle-o"></i> Calendar Page</a></li>
-            <li><a class="treeview-item" href="page-mailbox.html"><i class="icon fa fa-circle-o"></i> Mailbox</a></li>
-            <li><a class="treeview-item" href="page-error.html"><i class="icon fa fa-circle-o"></i> Error Page</a></li>
-          </ul>
-        </li>
-        
-        -->
-        
-        
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-picture-o"></i><span class="app-menu__label">Banners </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/banners/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                  <li><a class="treeview-item" href="<?php echo base_url().'admin/banners/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+              </ul>
+          </li>
+          <?php if($usrRec->role=='admin'){?>
+              <li class="treeview"><a class="app-menu__item" href="<?php echo base_url().'admin/state/index'; ?>"><i class="app-menu__icon fa fa-picture-o"></i><span class="app-menu__label">States</span></a></li>
+              <li class="treeview"><a class="app-menu__item" href="<?php echo base_url().'admin/organization/index'; ?>"><i class="app-menu__icon fa fa-picture-o"></i><span class="app-menu__label">Organizations</span></a></li>
+              <li class="treeview"><a class="app-menu__item" href="<?php echo base_url().'admin/state_department/index'; ?>"><i class="app-menu__icon fa fa-picture-o"></i><span class="app-menu__label">State Departments</span></a></li>
+              <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Categories</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/category/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/category/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+                  </ul>
+              </li>
+              <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Coordinators</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/coordinator/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/coordinator/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+                  </ul>
+              </li>
+              <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">CMS Users</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/admin_user/index'; ?>"><i class="icon fa fa-bars"></i>List</a></li>
+                      <li><a class="treeview-item" href="<?php echo base_url().'admin/admin_user/add'; ?>"><i class="icon fa fa-plus-circle"></i>Add</a></li>
+                  </ul>
+              </li>
+
+              <li class="treeview"><a class="app-menu__item" href="<?php echo base_url().'admin/logs/index'; ?>"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Logs</span></a></li>
+
+          <?php } ?>
       </ul>
     </aside>
     
@@ -240,7 +209,6 @@ $method=$this->router->fetch_method();
     echo $body
 	?>
 
-    
     <script src="<?php echo base_url(); ?>assets/admin/js/main.js"></script>
 
   </body>

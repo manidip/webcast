@@ -1,0 +1,45 @@
+body{
+    background-color: #000 !important;
+    background: #000 !important;
+}
+a,
+.header-right .accessibility-nav li a.high-contrast.dark:hover{
+    color: #ffff00 !important;
+}
+.video-wrapper, .header-right,
+.header-right .accessibility-nav li ul,
+footer{
+    background: #333;
+}
+.header-right .accessibility-nav li a:hover,
+.header-right .accessibility-nav li.ico-site-search .search-drop li input[type=submit],
+.header-right .accessibility-nav li.ico-site-search .search-drop li input[type=submit]:hover,
+.header-right .accessibility-nav li ul li a:hover,
+.more-vid-section .more-vid-header .gen-btn,
+.more-vid-section .owl-carousel .owl-nav button,
+.more-vid-section .more-vid-header .gen-btn:hover,
+.more-vid-section .owl-carousel .owl-nav button:hover{
+    background-color: #ffff00;
+    background: #ffff00;
+    color: #000 !important;
+}
+.header-right,
+.header-right .accessibility-nav li a,
+.header-right .accessibility-nav li a:hover,
+.header-right .accessibility-nav li ul,
+.header-right .accessibility-nav li ul li,
+.header-right .accessibility-nav li.ico-site-search .search-drop,
+.more-vid-section .more-vid-header .gen-btn,
+.more-vid-section .owl-carousel .owl-nav button{
+    border-color: #ffff00;
+}
+.header-right .accessibility-nav li a.high-contrast:after{
+    border-color: #fff;
+}
+.header-right .accessibility-nav li a.high-contrast.light{
+    background: #fff;
+    color: #000 !important;
+}
+.header-right .accessibility-nav li a.high-contrast.light:after{
+    border-color: #000;
+}

@@ -13,7 +13,7 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 
 			
 			$this->load->model('stateind_model');
-			
+            $this->load->model('ug_organization_model');
 			$this->load->model('log_model');	
 			
 			$this->load->library('my_form_validation');
@@ -30,9 +30,6 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 			$this->admin->check_sess_timeout();
 	}
 
-
-
-	
 	public function index()
 	{
 
@@ -68,7 +65,7 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		else if($msg=='updated')
 		{
 			$success_message="Coordinator has been updated successfully.";
-			$data['success_message']=$success_message;
+			$data['success_message'] = $success_message;
 		}
 		else if($msg=='deleted')
 		{
@@ -77,14 +74,28 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		}
 		else if($msg=='error')
 		{
-			$error_message="An error has occured.";
+			$error_message= "An error has occured.";
 			$data['error_message']=$error_message;
 		}
 		else if($msg=='delete_error')
 		{
 			$error_message="Action could not be completed.";
 			$data['error_message']=$error_message;
-		}
+
+		}else if($msg == 'security_mismatch'){
+
+            $error_message = "Security tokens do not match.";
+            $data['error_message']= $error_message;
+
+        }else if($msg=='invalid_cord'){
+
+            $error_message = "Invalid Coordinator.";
+            $data['error_message'] = $error_message;
+        }else if($msg=='cord_not_exists'){
+
+            $error_message = "Coordinator does not exists.";
+            $data['error_message'] = $error_message;
+        }
 		
 		
 		if($this->input->get('search') || $this->input->get('adv_search'))
@@ -237,8 +248,22 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		$coordinators = $this->coordinator_model->get_coordinators($start, $limit, $sort_field, $sort_order, $optArr);
 		
 		$data['coordinators'] = $coordinators;
-			
-			
+
+        $data['coordinators'] =  array_map(function ($coordinator){
+
+
+            if($coordinator->ministry)
+                $coordinator->ministry = $this->ug_organization_model->get_organization($coordinator->ministry);
+
+            if($coordinator->department)
+                $coordinator->department = $this->ug_organization_model->get_organization($coordinator->department);
+
+            if($coordinator->organization)
+                $coordinator->organization = $this->ug_organization_model->get_organization($coordinator->organization);
+
+
+            return $coordinator;
+        },$data['coordinators']);
 		
 		$data["paging_links"] = $this->pagination->create_links();
 
@@ -257,9 +282,8 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 			$error_message=implode(' ',$errArr);
 			
 		
-	    $data['error_message']=$error_message;
-		
-		
+	    $data['error_message']= $error_message;
+
 		
 		$admin_users=$this->admin_user_model->get_users(0,0,'admin_user.fname','asc');
 		$data['admin_users'] = $admin_users;
@@ -275,13 +299,7 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		$this->layout('inner');
 		
 	}
-	
-	
-	
 
-
-	
-	
 	public function add()
 	{
 
@@ -336,29 +354,37 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		}
 		
 		
-	
-		$this->form_validation->set_rules('name', 'Name', 'trim|strip_tags|xss_clean|required|max_length[100]|is_valid_name');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|strtolower|is_valid_email');
-		$this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|is_mobile_ten_digits');
-		$this->form_validation->set_rules('designation', 'Designation', 'trim|required|max_length[100]|strip_tags|xss_clean|is_valid_designation');
-		$this->form_validation->set_rules('organization', 'Organization', 'trim|max_length[255]|strip_tags|xss_clean|is_valid_address');
-		$this->form_validation->set_rules('address_line', 'Address Line', 'trim|max_length[100]|strip_tags|xss_clean|is_valid_address');
-		$this->form_validation->set_rules('city', 'City', 'trim|max_length[50]|strip_tags|xss_clean|is_valid_text');
-		$this->form_validation->set_rules('state', 'State', 'trim|is_integer'); // is_natural_no_zero or is_integer (includes zero)
-		$this->form_validation->set_rules('pin_code', 'Pin Code', 'trim|is_valid_pincode'); 
-		$this->form_validation->set_rules('std_code', 'STD Code', 'trim|is_valid_stdcode');
-		$this->form_validation->set_rules('phone', 'Phone', 'trim|is_valid_phone');
-		$this->form_validation->set_rules('intercom', 'Intercom', 'trim|is_valid_intercom');
-		$this->form_validation->set_rules('active', 'Status', 'trim|required|is_zero_one');  // same for status
-		
 
-	
-		
 		if(($this->input->post('add_submit_btn'))) // if the form is posted
 		{
-			//echo "in"; die;
-			
-			
+
+            $this->form_validation->set_rules('name', 'Name', 'trim|strip_tags|xss_clean|required|max_length[100]|is_valid_name');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|strtolower|is_valid_email');
+
+            $this->form_validation->set_rules('designation', 'Designation', 'trim|max_length[100]|strip_tags|xss_clean|is_valid_designation');
+            $this->form_validation->set_rules('organization', 'Organization', 'trim|max_length[255]|strip_tags|xss_clean|is_valid_address');
+            $this->form_validation->set_rules('address_line', 'Address Line', 'trim|max_length[100]|strip_tags|xss_clean|is_valid_address');
+            $this->form_validation->set_rules('city', 'City', 'trim|max_length[50]|strip_tags|xss_clean|is_valid_text');
+            $this->form_validation->set_rules('state', 'State', 'trim|is_integer'); // is_natural_no_zero or is_integer (includes zero)
+            $this->form_validation->set_rules('pin_code', 'Pin Code', 'trim|is_valid_pincode');
+            $this->form_validation->set_rules('intercom', 'Intercom', 'trim|is_valid_intercom');
+            $this->form_validation->set_rules('active', 'Status', 'trim|required|is_zero_one');  // same for status
+            $this->form_validation->set_rules('ministry', 'Ministry', 'trim|strip_tags|xss_clean');
+            $this->form_validation->set_rules('department', 'Department', 'trim|strip_tags|xss_clean');
+            $this->form_validation->set_rules('organization', 'Organization', 'trim|strip_tags|xss_clean');
+
+            $required_if = (!$this->input->post('mobile')) ? '|required' : '' ;
+
+
+            $this->form_validation->set_rules('std_code', 'STD Code', 'trim|is_valid_stdcode');
+            $this->form_validation->set_rules('mobile', 'Mobile', 'trim|is_mobile_ten_digits');
+            $this->form_validation->set_rules('phone', 'Mobile or Phone', 'trim'.$required_if.'|is_valid_phone');
+
+
+
+
+
+
 			$data['data_posted'] = TRUE;
 		
 			$formValidated=$this->form_validation->run();
@@ -400,10 +426,20 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 				$dataArr['email']=$this->input->post('email');
 				$dataArr['mobile']=$this->input->post('mobile');
 				$dataArr['designation']=$this->input->post('designation');
-				$dataArr['organization']=$this->input->post('organization');
+                $dataArr['ministry'] = $this->input->post('ministry');
+                $dataArr['department'] = $this->input->post('department');
+                $dataArr['organization'] = $this->input->post('organization');
 				$dataArr['address']=$this->input->post('address');
 				$dataArr['city']=$this->input->post('city');
-				$dataArr['state']=$this->input->post('state');
+
+				$state = $this->input->post('state');
+
+				if(empty($state)){
+                    $dataArr['state']= 0;
+                }else{
+                    $dataArr['state']= $this->input->post('state');
+                }
+
 				$dataArr['pin_code']=$this->input->post('pin_code');
 				$dataArr['std_code']=$this->input->post('std_code');
 				$dataArr['phone']=$this->input->post('phone');
@@ -475,10 +511,13 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 	
 		$stateArr=$this->stateind_model->get_states();
 		$data['stateArr'] = $stateArr;
-		
+
 		$data['error_message']=$error_message;
 		
 		$data['userRec'] = $userRec;
+
+        $data['ministries'] = $this->ug_organization_model->get_ministries();
+        $data['departments'] = $this->ug_organization_model->get_departments();
 		
 		//$this->load->view('coordinator/add');
 		$this->body = 'coordinator/add';
@@ -486,9 +525,7 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		$this->layout('inner');
 			
 	}
-	
-	
-	
+
 	public function check_user_email()
 	{
 		
@@ -551,9 +588,9 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 			{
 				
 				if(!empty($id)) //edit
-					$cor_count=$this->coordinator_model->get_coordinator_count(array('email'=>$email), $id);
+					$cor_count = $this->coordinator_model->get_coordinator_count(array('email'=>$email), $id);
 				else
-					$cor_count=$this->coordinator_model->get_coordinator_count(array('email'=>$email));
+					$cor_count = $this->coordinator_model->get_coordinator_count(array('email'=>$email));
 						
 					
 				if($cor_count>0)
@@ -581,15 +618,10 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		}
 
 	}
-	
-	
-	
+
 	public function delete()
 	{
-		
-		//echo $this->session->csrf_salt;
-		//die;
-		
+
 		if(empty($this->session->admin_session->id))
 		{
 			redirect('/admin/home/index');
@@ -604,12 +636,10 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		
 		if($userRec->role!='admin') 
 		{
-			//show_error('You are not authorized for this action');
-			redirect('/admin/dashboard/index?msg=auth_error');
+
+			redirect('/admin/coordinator/index?msg=auth_error');
 			exit;
 		}
-		
-		
 
 		
 		$errArr=array();
@@ -633,25 +663,29 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		 
 		if($csrf_wc_token!=$hash)
 		{
-			$errArr[]="Security tokens do not match.";
+            redirect('/admin/coordinator/index?msg=security_mismatch');
+            exit;
 		}
 		else
 		{
-			
-			
-		
-			$id=$this->input->get('id');
-			
-			
+
+			$id = $this->input->get('id');
 			if(!$this->validation->isInteger($id))
 			{
-				$errArr[]="Invalid Coordinator ID.";
+                redirect('/admin/coordinator/index?msg=invalid_cord');
+                exit;
 			}
-			
+
+            $coordinator_exists = $this->coordinator_model->get_coordinator($id);
+            if(empty($coordinator_exists)){
+                redirect('/admin/coordinator/index?msg=cord_not_exists');
+                exit;
+            }
+
 			
 			if(empty($errArr))
 			{
-				$this->coordinator_model->delete_coordinator($id); 
+				$this->coordinator_model->delete_coordinator($id);
 				
 				////////////////add to audit trail////////////////
 				$dataArr=array();
@@ -668,9 +702,10 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 				# update csrf salt in session
 				$csrf_salt=md5(uniqid(mt_rand()));
 				$this->session->csrf_salt=$csrf_salt;
-				
-				
-				echo "deleted"; 
+
+                redirect('/admin/coordinator/index?msg=deleted');
+                exit;
+
 				exit;
 				
 			}
@@ -684,6 +719,5 @@ class Coordinator extends MX_Controller { //class Home extends CI_Controller  cl
 		exit;
 	}
 	
-
 
 }

@@ -52,10 +52,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['events/(:num)'] = 'events/index/$1';
+$route['events/(:num)/session/(:num)'] = 'events/index/$1/$2';
+$route['sessions/(:num)'] = 'sessions/index/$1';
+$route['organization/(:num)'] = 'organization/index/$1';
+$route['category/(:num)'] = 'category/index/$1';
+$route['organization/name/([a-z0-9]+)'] = 'organization/index_by_name/$1';
 
-
-$route['hi'] = 'home/index/hi';
-
-
+require_once APPPATH . 'cache/department.routes.php';
+require_once APPPATH . 'cache/state.department.routes.php';
 
 
